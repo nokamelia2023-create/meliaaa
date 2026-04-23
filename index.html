@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Aplikasi ATPH - Nuansa Ungu</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(145deg, #f3e5f5 0%, #d1c4e9 100%);
+    margin: 0;
+    padding: 0 0 25px 0;
+    text-align: center;
+    color: #3c1e4a;
+}
+
+.header {
+    background: linear-gradient(95deg, #6a1b9a, #9c4dcc);
+    color: #f3e5f5;
+    padding: 18px 12px;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 6px 12px rgba(106, 27, 154, 0.3);
+    text-shadow: 1px 1px 0 #4a148c;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    letter-spacing: 1px;
+}
+
+.header p {
+    margin: 6px 0 0;
+    font-weight: bold;
+    color: #e1bee7;
+    font-size: 0.9rem;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.96);
+    margin: 20px auto;
+    padding: 18px 12px;
+    width: 92%;
+    max-width: 550px;
+    border-radius: 32px;
+    box-shadow: 0 12px 24px rgba(106, 27, 154, 0.25);
+    backdrop-filter: blur(0px);
+    transition: 0.2s ease;
+    border: 1px solid #ce93d8;
+}
+
+button {
+    padding: 12px 18px;
+    margin: 10px 8px;
+    width: auto;
+    min-width: 180px;
+    background: linear-gradient(100deg, #8e24aa, #ab47bc);
+    color: white;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: linear-gradient(100deg, #6a1b9a, #8e24aa);
+    transform: scale(0.97);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.halaman {
+    display: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0 10px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px #b39ddb;
+}
+
+th, td {
+    border: 1px solid #d9b8e6;
+    padding: 10px 6px;
+    vertical-align: middle;
+}
+
+th {
+    background: #9c4dcc;
+    color: #fff3e0;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+td {
+    background-color: #faf5ff;
+    color: #3e1f47;
+}
+
+input, select {
+    width: 95%;
+    padding: 8px 6px;
+    border-radius: 24px;
+    border: 1.5px solid #ce93d8;
+    background: #fff9ff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+input:focus, select:focus {
+    border-color: #8e24aa;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(142, 36, 170, 0.3);
+}
+
+#status {
+    background: #ede7f6;
+    padding: 12px;
+    border-radius: 40px;
+    color: #5e2b77;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* tombol kembali spesifik */
+.card button:first-of-type {
+    background: #b39ddb;
+    color: #311b42;
+    margin-bottom: 18px;
+}
+
+.card button:first-of-type:hover {
+    background: #9575cd;
+    color: white;
+}
+
+/* jam alarm */
+#jam {
+    width: 200px;
+    font-size: 1.3rem;
+    text-align: center;
+    padding: 10px;
+    margin: 12px auto;
+    display: inline-block;
+}
+
+/* footer atau info kecil (opsional) */
+.footer-info {
+    margin-top: 10px;
+    font-size: 0.75rem;
+    color: #6a1b9a;
+    background: rgba(255,235,255,0.7);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 6px 18px;
+    border-radius: 40px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🌾 Aplikasi ATPH</h1>
+    <p><b>AMELLL</b> | X ATPH 2 | <span style="color:#e1bee7;">✨ Nuansa Ungu</span></p>
+</div>
+
+<!-- BERANDA (menu utama) -->
+<div id="beranda" class="card">
+    <button onclick="showPage('jadwal')">📅 Jadwal Tanaman</button><br>
+    <button onclick="showPage('alarm')">⏰ Alarm Penyiraman</button><br>
+    <button onclick="showPage('data')">🌱 Data Tanaman</button>
+    <div class="footer-info">💜 manajemen kegiatan pertanian</div>
+</div>
+
+<!-- JADWAL -->
+<div id="jadwal" class="card halaman">
+    <h2>📅 Jadwal Perawatan</h2>
+    <button onclick="showPage('beranda')">⬅️ Kembali ke Beranda</button>
+
+    <table>
+        <thead>
+            <tr><th>Tanggal</th><th>Kegiatan</th><th>Keterangan</th></tr>
+        </thead>
+        <tbody id="jadwalBody">
+            <!-- 7 baris dinamis agar lebih mudah diatur, namun tetap 7 baris dengan input -->
+        </tbody>
+    </table>
+    <div class="footer-info">✏️ Isi jadwal sesuai kebutuhan</div>
+</div>
+
+<!-- ALARM -->
+<div id="alarm" class="card halaman">
+    <h2>⏰ Alarm Penyiraman</h2>
+    <button onclick="showPage('beranda')">⬅️ Kembali</button>
+    <br><br>
+    <label style="font-weight:bold; color:#7b1fa2;">🕒 Pilih waktu:</label><br>
+    <input type="time" id="jam" style="background:#f3e5f5;"><br>
+    <button onclick="setAlarm()" style="background:#7b1fa2;">🔔 Set Alarm Ungu</button>
+    <h3 id="status">⏳ Belum ada alarm diset</h3>
+    <div class="footer-info">🔊 Alarm akan berbunyi + notifikasi</div>
+</div>
+
+<!-- DATA TANAMAN -->
+<div id="data" class="card halaman">
+    <h2>🌱 Data Tanaman</h2>
+    <button onclick="showPage('beranda')">⬅️ Kembali</button>
+    <table>
+        <thead><tr><th>Nama</th><th>Tanggal</th><th>Keterangan</th></tr></thead>
+        <tbody id="dataBody">
+            <!-- 7 baris data tanaman -->
+        </tbody>
+    </table>
+    <div class="footer-info">📋 Catat riwayat tanamanmu</div>
+</div>
+
+<!-- SUARA alarm -->
+<audio id="suara" preload="auto">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/wav">
+    <source src="https://www.soundjay.com/button/beep-07.wav" type="audio/mpeg">
+</audio>
+
+<script>
+// Fungsi navigasi antar halaman
+function showPage(id) {
+    document.getElementById("beranda").style.display = "none";
+    document.getElementById("jadwal").style.display = "none";
+    document.getElementById("alarm").style.display = "none";
+    document.getElementById("data").style.display = "none";
+
+    document.getElementById(id).style.display = "block";
+}
+
+// ========================
+// MEMBUAT 7 BARIS JADWAL dengan data default kosong, tetapi dengan placeholder
+// ========================
+function buildJadwalRows() {
+    const tbody = document.getElementById('jadwalBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 7; i++) {
+        const row = tbody.insertRow();
+        
+        // cell tanggal
+        const cellTanggal = row.insertCell(0);
+        const inputTanggal = document.createElement('input');
+        inputTanggal.type = 'date';
+        inputTanggal.style.width = '95%';
+        // optional: beri placeholder ringan
+        inputTanggal.value = '';
+        cellTanggal.appendChild(inputTanggal);
+        
+        // cell kegiatan
+        const cellKegiatan = row.insertCell(1);
+        const selectKeg = document.createElement('select');
+        const options = ['Menanam', 'Menyiram', 'Memupuk', 'Panen'];
+        options.forEach(opt => {
+            const optionEl = document.createElement('option');
+            optionEl.value = opt;
+            optionEl.textContent = opt;
+            selectKeg.appendChild(optionEl);
+        });
+        selectKeg.style.width = '95%';
+        cellKegiatan.appendChild(selectKeg);
+        
+        // cell keterangan
+        const cellKet = row.insertCell(2);
+        const inputKet = document.createElement('input');
+        inputKet.type = 'text';
+        inputKet.placeholder = 'catatan...';
+        inputKet.style.width = '95%';
+        cellKet.appendChild(inputKet);
+    }
+}
+
+// ========================
+// MEMBUAT 7 BARIS DATA TANAMAN
+// ========================
+function buildDataRows() {
+    const tbody = document.getElementById('dataBody');
+    tbody.innerHTML = '';
+    for (let i = 0; i < 7; i++) {
+        const row = tbody.insertRow();
+        
+        // nama tanaman
+        const cellNama = row.insertCell(0);
+        const inputNama = document.createElement('input');
+        inputNama.type = 'text';
+        inputNama.placeholder = 'Contoh: Padi, Cabai';
+        inputNama.style.width = '95%';
+        cellNama.appendChild(inputNama);
+        
+        // tanggal
+        const cellTanggal = row.insertCell(1);
+        const inputTgl = document.createElement('input');
+        inputTgl.type = 'date';
+        inputTgl.style.width = '95%';
+        cellTanggal.appendChild(inputTgl);
+        
+        // keterangan
+        const cellKet = row.insertCell(2);
+        const inputKet = document.createElement('input');
+        inputKet.type = 'text';
+        inputKet.placeholder = 'keterangan (fase, catatan)';
+        inputKet.style.width = '95%';
+        cellKet.appendChild(inputKet);
+    }
+}
+
+// ========================
+// ALARM LOGIC (ungu edition)
+// ========================
+let alarmWaktu = "";      // format HH:MM
+
+function setAlarm() {
+    const jamInput = document.getElementById("jam").value;
+    if (!jamInput) {
+        document.getElementById("status").innerHTML = "⚠️ Pilih waktu terlebih dahulu!";
+        return;
+    }
+    alarmWaktu = jamInput;
+    document.getElementById("status").innerHTML = `✅ Alarm diset pada pukul ${alarmWaktu} 💜`;
+    
+    // efek getar ringan (opsional) - notifikasi visual
+    const statusDiv = document.getElementById("status");
+    statusDiv.style.transition = "0.2s";
+    statusDiv.style.backgroundColor = "#d1c4e9";
+    setTimeout(() => { statusDiv.style.backgroundColor = "#ede7f6"; }, 400);
+}
+
+// pengecekan setiap detik
+let alarmTriggeredToday = false; // flag untuk mencegah spam berulang dalam satu menit yang sama (agar alarm tidak bunyi berulang tiap detik)
+let lastTriggerMinute = "";      // simpan menit yang sudah dipicu
+
+setInterval(function() {
+    if (alarmWaktu === "") return;
+    
+    let now = new Date();
+    let jam = now.getHours().toString().padStart(2,'0');
+    let menit = now.getMinutes().toString().padStart(2,'0');
+    let currentTime = jam + ":" + menit;
+    
+    // cek apakah waktu sekarang sama dengan alarmWaktu
+    if (currentTime === alarmWaktu) {
+        // cek apakah alarm sudah pernah dipicu di menit yang sama (agar tidak bunyi berkali-kali dalam satu menit)
+        if (lastTriggerMinute !== currentTime) {
+            lastTriggerMinute = currentTime;
+            // mainkan suara
+            const audio = document.getElementById("suara");
+            if (audio) {
+                audio.play().catch(e => console.log("Audio play error: ", e));
+            }
+            // Tampilkan notifikasi browser jika diizinkan (tidak mengganggu)
+            if (Notification.permission === "granted") {
+                new Notification("🌿 Aplikasi ATPH", { body: `⏰ Waktunya menyiram tanaman! Pukul ${alarmWaktu}`, icon: "https://cdn-icons-png.flaticon.com/512/1995/1995572.png" });
+            } else if (Notification.permission !== "denied") {
+                Notification.requestPermission();
+            }
+            alert("💜⏰ Waktunya menyiram tanaman! 💜");
+            // ubah status sementara
+            const statusEl = document.getElementById("status");
+            if (statusEl && alarmWaktu !== "") {
+                statusEl.innerHTML = `🔔 Alarm berbunyi! Saatnya siram tanaman pada ${alarmWaktu} ✨`;
+                setTimeout(() => {
+                    if(alarmWaktu) statusEl.innerHTML = `🔔 Alarm aktif: ${alarmWaktu} (siap siram)`;
+                }, 4000);
+            }
+        }
+    } else {
+        // reset flag ketika waktu berbeda, agar jika nanti waktu sama lagi di masa depan (bisa hari lain atau jam lain) tetap bisa bunyi.
+        if (lastTriggerMinute !== currentTime && lastTriggerMinute !== "") {
+            // hanya reset jika sudah lewat menit berbeda
+            if (lastTriggerMinute !== currentTime) lastTriggerMinute = "";
+        }
+    }
+}, 1000);
+
+// inisialisasi tampilan awal: beranda visible
+document.getElementById("beranda").style.display = "block";
+buildJadwalRows();
+buildDataRows();
+
+// opsi tambahan: request izin notifikasi saat halaman dimuat (agar notifikasi bisa muncul)
+if (Notification.permission === "default") {
+    Notification.requestPermission();
+}
+
+// Validasi tambahan: memperbaiki warna tombol dan memberikan efek fresh ungu
+// Menambahkan gaya interaktif pada tabel input (semua input sudah tertata)
+</script>
+</body>
+</html>
